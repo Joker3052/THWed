@@ -1,6 +1,6 @@
 <?php
 require_once ('config.php');
-
+session_start();
 /**
  * insert, update, delete -> su dung function
  */

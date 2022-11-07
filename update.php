@@ -16,6 +16,29 @@ require_once ('dbhelper.php');
 <body>
 	<div class="container">
 		<div class="panel panel-primary">
+
+		<?php
+			if (isset($_SESSION['login'])) {
+			?>
+				<a href="logout.php">logout</a>
+			<?php
+			} else {
+			?>
+				<a href="login.php">login</a>
+
+			<?php
+			}
+			?>
+
+			<?php
+
+			if (isset($_SESSION['login'])) {
+				echo "hi <b>" . $_SESSION['login']. "</b>";
+			} else {
+				echo 'pl login';
+			}
+			?>
+		
 			<div class="panel-heading">
 				Quản lý thông tin nhân viên
 			</div>
@@ -51,7 +74,7 @@ foreach ($studentList as $std) {
 			<td>'.$std['Hoten'].'</td>
 			<td>'.$std['Tenpb'].'</td>
 			<td>'.$std['Diachi'].'</td>
-			<td><button class="btn btn-warning" onclick=\'window.open("input.php?id='.$std['IDNV'].'","_self")\'>Edit</button></td>
+			<td><button class="btn btn-warning" onclick="edit(' . $std['IDNV'] . ','.$idLogin.')">Edit</button></td>
 			<td><button class="btn btn-danger" onclick="Delete('.$std['IDNV'].')">Delete</button></td>
 		</tr>';
 }
@@ -59,24 +82,80 @@ foreach ($studentList as $std) {
 
 					</tbody>
 				</table>
-				<button class="btn btn-success" onclick="window.open('input.php', '_self')">Add Student</button>
+				<button class="btn btn-success" onclick="add(<?=$idLogin?>)">Add Student</button>
 			</div>
 		</div>
 	</div>
 
 	<script type="text/javascript">
-		function Delete(id) {
-			option = confirm('Bạn có muốn xoá nhân viên này không')
-			if(!option) {
-				return;
-			}
+		
+		function add(id) {
+			<?php
+			if (isset($_SESSION['login'])) {
+				//header("Location: index.php?idLogin=$idLogin");
+			?>
+				location.href = "input.php?idLogin=" + id;
+				// console.log('id is :'+id);
+			<?php
+			} else {
+			?>
+				option = confirm('CẦN ĐĂNG NHẬP');
+				if (!option) {
+					return;
+				} else {
+					location.href = 'login.php';
+				}
 
-			$.post('delete.php', {
-				'IDNV': id
-			}, function(data) {
-				alert(data)
-				location.reload()
-			})
+			<?php  } ?>
+		}
+
+		function edit(id,idLogin) {
+			<?php
+			if (isset($_SESSION['login'][$idLogin])) {
+				//header("Location: index.php?idLogin=$idLogin");
+				?>
+				location.href = "input.php?idEdit=" + id+"&idLogin="+idLogin;
+				// console.log('id is :'+id);
+			<?php
+			} else {
+			?>
+				option = confirm('CẦN ĐĂNG NHẬP');
+				if (!option) {
+					return;
+				} else {
+					location.href = 'login.php';
+				}
+
+			<?php  } ?>
+		}
+
+
+		function Delete(id) {
+			<?php
+			if (isset($_SESSION['login'][$idLogin])) { ?>
+				option = confirm('Bạn có muốn xoá sinh viên này không')
+				if (!option) {
+					return;
+				}
+
+				console.log(id)
+				$.post('delete.php', {
+					'IDNV': id
+				}, function(data) {
+					alert(data)
+					location.reload()
+				})
+			<?php
+			} else {
+			?>
+				option = confirm('CẦN ĐĂNG NHẬP');
+				if (!option) {
+					return;
+				} else {
+					location.href = 'login.php';
+				}
+
+			<?php  } ?>
 		}
 	</script>
 </body>

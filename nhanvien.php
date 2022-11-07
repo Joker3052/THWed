@@ -16,6 +16,31 @@ require_once ('dbhelper.php');
 <body>
 	<div class="container">
 		<div class="panel panel-primary">
+		<?php
+			$idLogin = '';
+			if (isset($_GET['idLogin'])) {
+				$idLogin = $_GET['idLogin'];
+			}
+			if (isset($_SESSION['login'][$idLogin])) {
+			?>
+				<a href="logout.php">logout</a>
+			<?php
+			} else {
+			?>
+				<a href="login.php?linklogin=1">login</a>
+
+			<?php
+			}
+			?>
+
+			<?php
+
+			if (isset($_SESSION['login'][$idLogin])) {
+				echo "hi <b>" . $_SESSION['login'][$idLogin] . "</b>";
+			} else {
+				echo 'pl login';
+			}
+			?>
 			<div class="panel-heading">
 			 Thông tin nhân viên
 			</div>
@@ -32,8 +57,8 @@ require_once ('dbhelper.php');
 					<tbody>
 <?php
 $s_IDPB='';
-if (isset($_REQUEST['IDPB'])) {
-	$s_IDPB = $_REQUEST['IDPB'];
+if (isset($_REQUEST['idphongban'])) {
+	$s_IDPB = $_REQUEST['idphongban'];
 }
 
 if($s_IDPB != '')

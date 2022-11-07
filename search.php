@@ -18,6 +18,31 @@ require_once('dbhelper.php');
 <body>
     <div class="container">
         <div class="panel panel-primary">
+        <?php
+			$idLogin = '';
+			if (isset($_GET['idLogin'])) {
+				$idLogin = $_GET['idLogin'];
+			}
+			if (isset($_SESSION['login'][$idLogin])) {
+			?>
+				<a href="logout.php">logout</a>
+			<?php
+			} else {
+			?>
+				<a href="login.php?linklogin=3">login</a>
+
+			<?php
+			}
+			?>
+
+			<?php
+
+			if (isset($_SESSION['login'][$idLogin])) {
+				echo "hi <b>" . $_SESSION['login'][$idLogin] . "</b>";
+			} else {
+				echo 'pl login';
+			}
+			?>
             <div class="panel-heading">
                 Quản lý thông tin nhân viên
                 <form method="get">

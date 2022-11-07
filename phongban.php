@@ -16,6 +16,31 @@ require_once ('dbhelper.php');
 <body>
 	<div class="container">
 		<div class="panel panel-primary">
+		<?php
+			$idLogin = '';
+			if (isset($_GET['idLogin'])) {
+				$idLogin = $_GET['idLogin'];
+			}
+			if (isset($_SESSION['login'][$idLogin])) {
+			?>
+				<a href="logout.php">logout</a>
+			<?php
+			} else {
+			?>
+				<a href="login.php?linklogin=2">login</a>
+
+			<?php
+			}
+			?>
+
+			<?php
+
+			if (isset($_SESSION['login'][$idLogin])) {
+				echo "hi <b>" . $_SESSION['login'][$idLogin] . "</b>";
+			} else {
+				echo 'pl login';
+			}
+			?>
 			<div class="panel-heading">
 			 Thông tin phòng ban
 			</div>
@@ -40,7 +65,7 @@ foreach ($studentList as $std) {
 			<td>'.($index++).'</td>
 			<td>'.$std['Tenpb'].'</td>
 			<td>'.$std['Mota'].'</td>
-			<td><button class="btn btn-info" onclick=\'window.open("nhanvien.php?IDPB='.$std['IDPB'].'","_self")\'>Xem chi tiết</button></td>
+			<td><button class="btn btn-info" onclick=\'window.open("nhanvien.php?idphongban='.$std['IDPB'].'","_self")\'>Xem chi tiết</button></td>
 		</tr>';
 }
 // <td>'.$std['Diachi'].'</td>
